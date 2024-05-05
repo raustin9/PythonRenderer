@@ -3,6 +3,9 @@ import pygame.freetype
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import pywavefront
+
+from model import Model
 
 
 class Cube:
@@ -56,6 +59,10 @@ class App:
         gluPerspective(45, (self.display[0]/self.display[1]), 0.1, 50.0)
         glTranslatef(0.0,0.0, -5)
         self.game_font = pg.font.SysFont('arial', 12)
+
+        self.cube = Model('assets/cube.obj')
+        # self.model = Model('assets/cube.obj')
+
         self.mainloop()
 
     def draw_text(self, text, x, y):
@@ -77,8 +84,11 @@ class App:
             # refresh screen
             glRotatef(1, 3, 1, 1)
             glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT)
-            cube = Cube()
-            cube.render()
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+            # cube = Cube()
+            # cube.render()
+            self.cube.render()
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
 
             self.draw_text(f'{self.clock.get_fps()}', 20, 20)
 
